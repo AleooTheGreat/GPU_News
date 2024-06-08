@@ -1,12 +1,13 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    background-color: black;
     margin: 0;
     padding: 0;
+    color: white;
 }
 
 header {
-    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.9);
     color: white;
     padding: 1rem;
     display: flex;
@@ -16,6 +17,7 @@ header {
 
 a {
     text-decoration: none;
+    color: white;
 }
 
 .back-to-main {
@@ -33,34 +35,44 @@ a {
 
 .articles-section {
     padding: 2rem;
-    background-color: white;
+    background-color: black;
 }
 
 .article-row {
     position: relative;
     display: block;
     margin-bottom: 1rem;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
     padding: 1rem;
-    border-left: 4px solid #6a00ff;
+    border-left: 4px solid;
+    border-image: linear-gradient(45deg, #6a00ff, #0004ff) 1;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .article-row:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.7);
 }
 
 .article-title {
-    color: black;
+    color: white;
     margin: 0;
     font-size: 1.5rem;
 }
 
+.article-title a {
+    color: white;
+    transition: color 0.3s;
+}
+
+.article-title a:hover {
+    color: #ff00ff;
+}
+
 .article-description {
     font-size: 1rem;
-    color: #555;
+    color: #aaa;
 }
 
 .delete-button {
@@ -77,4 +89,61 @@ a {
 
 .article-row:hover .delete-button {
     display: block;
+}
+
+#add-article-button {
+    background-color: #0004ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 20px auto;
+    display: block;
+}
+
+#add-article-button:hover {
+    background-color: #0056b3;
+}
+
+#add-article-form {
+    display: none;
+    flex-direction: column;
+    margin: 20px auto;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#add-article-form input, #add-article-form button {
+    margin: 10px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+#add-article-form input {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+}
+
+#add-article-form button {
+    background-color: #0004ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#add-article-form button:hover {
+    background-color: #0056b3;
+}
+
+.moving-image {
+    background-image: url('Images/4090.png');
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    margin: 20px 0;
 }

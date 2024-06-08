@@ -1,36 +1,99 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Check if user is logged in
-  if (sessionStorage.getItem('loggedIn')) {
-    document.getElementById('login-form').style.display = 'none';
-    document.getElementById('logout-button').style.display = 'block';
-    // Redirect to main.html
-    window.location.href = 'main.html';
-  } else {
-    document.getElementById('login-form').style.display = 'block';
-    document.getElementById('logout-button').style.display = 'none';
+  const isLoggedIn = sessionStorage.getItem('loggedIn');
+
+  if (!isLoggedIn && window.location.pathname !== '/login.html') {
+    window.location.href = 'login.html';
   }
 
-  document.getElementById('login-form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    
-    // Dummy authentication, replace with real authentication
-    if (username === 'alex' && password === '091527') {
-      sessionStorage.setItem('loggedIn', true);
-      window.location.href = 'main.html';
-    } else {
-      alert('Invalid username or password');
-    }
-  });
+  if (document.getElementById("articles")) {
+    if (isLoggedIn) {
+      console.log('User is logged in');
+      
+      const addButton = document.createElement("button");
+      addButton.textContent = "Post New Article";
+      addButton.style.display = "block";
+      addButton.style.margin = "20px auto";
+      addButton.style.padding = "10px 20px";
+      addButton.style.fontSize = "16px";
+      document.body.insertBefore(addButton, document.body.firstChild);
 
-  document.getElementById('logout-button').addEventListener('click', () => {
-    sessionStorage.removeItem('loggedIn');
-    window.location.href = 'login.html';
+      const addArticleForm = document.createElement("form");
+      addArticleForm.innerHTML = `
+        <input type="text" id="article-title" placeholder="Article Title" required style="margin: 10px; padding: 5px; font-size: 16px;">
+        <input type="text" id="article-description" placeholder="Article Description" required style="margin: 10px; padding: 5px; font-size: 16px;">
+        <input type="url" id="article-link" placeholder="Article Link" required style="margin: 10px; padding: 5px; font-size: 16px;">
+         <input type="email" id="email" placeholder="Enter your email" required style="margin: 10px; padding: 5px; font-size: 16px;">
+        <button type="submit" style="margin: 10px; padding: 10px 20px; font-size: 16px;">Submit</button>
+      `;
+      addArticleForm.style.display = "none";
+      addArticleForm.style.flexDirection = "column";
+      addArticleForm.style.margin = "20px auto";
+      addArticleForm.style.maxWidth = "600px";
+      document.body.insertBefore(addArticleForm, document.body.children[1]);
+
+      addButton.addEventListener("click", () => {
+        addArticleForm.style.display = "flex";
+      });
+
+      addArticleForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const title = document.getElementById("article-title").value;
+        const description = document.getElementById("article-description").value;
+        const link = document.getElementById("article-link").value;
+
+        console.log('Form submitted with title:', title, 'description:', description, 'and link:', link);
+
+        if (title && description && link) {
+          addNewArticle(title, description, link);
+          addArticleForm.reset();
+          addArticleForm.style.display = "none";
+        } else {
+          alert("Please fill out all fields.");
+        }
+      });
+    } else {
+      console.log('User is not logged in');
+    }
+
+    loadArticles();
+  }
+
+  const logoutButton = document.getElementById('logout-button');
+  if (logoutButton) {
+    logoutButton.style.display = 'block'; 
+    logoutButton.addEventListener('click', () => {
+      console.log('Logout button clicked');
+      sessionStorage.removeItem('loggedIn');
+      window.location.href = 'login.html';
+    });
+  } else {
+    console.error('Logout button not found');
+  }
+
+  // Background Color Change Logic
+  const sectionsToChange = [
+    document.querySelector('header'),
+    document.querySelector('.first_part'),
+    document.querySelector('.latest-news-section')
+  ];
+
+  const changeBackgroundColors = () => {
+    sectionsToChange.forEach(section => {
+      if (section.style.backgroundColor === 'rgba(0, 0, 0, 0.7)') {
+        section.style.backgroundColor = 'rgba(0, 0, 255, 0.7)';
+      } else {
+        section.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+      }
+    });
+  };
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'G' || event.key === 'g') {
+      changeBackgroundColors();
+    }
   });
 });
 
-// Additional script for article management and animations
 // Function to add a new article
 function addNewArticle(title, description, link, persist = true) {
   console.log('Adding new article with title:', title, 'description:', description, 'and link:', link);
@@ -51,6 +114,7 @@ function addNewArticle(title, description, link, persist = true) {
     event.preventDefault();
     articleSection.removeChild(newArticle);
     removeArticleFromStorage(title, description, link);
+    deleteArticleFromServer(title, description, link); 
   });
 
   if (persist) {
@@ -60,84 +124,65 @@ function addNewArticle(title, description, link, persist = true) {
   console.log('Article added to the DOM');
 }
 
-// Save article to server
+// Delete article from local storage
+function removeArticleFromStorage(title, description, link) {
+  let storedArticles = JSON.parse(localStorage.getItem('articles')) || [];
+  storedArticles = storedArticles.filter(article => article.title !== title || article.description !== description || article.link !== link);
+  localStorage.setItem('articles', JSON.stringify(storedArticles));
+}
+
+// Save article to the server
 function saveArticle(title, description, link) {
-  fetch('/submit', {
+  const article = { title, description, link };
+
+  fetch('http://localhost:3000/submit', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, description, link })
+    body: JSON.stringify(article),
   })
   .then(response => response.json())
-  .then(data => console.log('Article saved:', data))
-  .catch(error => console.error('Error saving article:', error));
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 }
 
-// Load articles from session storage
+// Delete article from the server
+function deleteArticleFromServer(title, description, link) {
+  const article = { title, description, link };
+
+  fetch('http://localhost:3000/delete', {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(article),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Article deleted from server:', data);
+  })
+  .catch((error) => {
+    console.error('Error deleting article:', error);
+  });
+}
+
+// Load articles from the server
 function loadArticles() {
-  const storedArticles = JSON.parse(sessionStorage.getItem('articles')) || [];
-  storedArticles.forEach(article => {
-    addNewArticle(article.title, article.description, article.link, false);
-  });
-}
-
-// Remove articles from session storage
-function removeArticleFromStorage(title, description, link) {
-  let storedArticles = JSON.parse(sessionStorage.getItem('articles')) || [];
-  storedArticles = storedArticles.filter(article => article.title !== title || article.description !== description || article.link !== link);
-  sessionStorage.setItem('articles', JSON.stringify(storedArticles));
-}
-
-// Ensure this script only runs on the articles page
-if (document.getElementById("articles")) {
-  loadArticles();
-
-  const articleSection = document.getElementById("articles");
-
-  // Add button for adding new articles
-  const addButton = document.createElement("button");
-  addButton.textContent = "Post New Article";
-  addButton.style.display = "block";
-  addButton.style.margin = "20px auto";
-  addButton.style.padding = "10px 20px";
-  addButton.style.fontSize = "16px";
-  document.body.insertBefore(addButton, document.body.firstChild);
-
-  const addArticleForm = document.createElement("form");
-  addArticleForm.innerHTML = `
-    <input type="text" id="article-title" placeholder="Article Title" required style="margin: 10px; padding: 5px; font-size: 16px;">
-    <input type="text" id="article-description" placeholder="Article Description" required style="margin: 10px; padding: 5px; font-size: 16px;">
-    <input type="url" id="article-link" placeholder="Article Link" required style="margin: 10px; padding: 5px; font-size: 16px;">
-    <input type="email" id="email" placeholder="Enter your email" required style="margin: 10px; padding: 5px; font-size: 16px;">
-    <button type="submit" style="margin: 10px; padding: 10px 20px; font-size: 16px;">Submit</button>
-  `;
-  addArticleForm.style.display = "none";
-  addArticleForm.style.flexDirection = "column";
-  addArticleForm.style.margin = "20px auto";
-  addArticleForm.style.maxWidth = "600px";
-  document.body.insertBefore(addArticleForm, document.body.children[1]);
-
-  addButton.addEventListener("click", () => {
-    addArticleForm.style.display = "flex";
-  });
-
-  addArticleForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const title = document.getElementById("article-title").value;
-    const description = document.getElementById("article-description").value;
-    const link = document.getElementById("article-link").value;
-
-    console.log('Form submitted with title:', title, 'description:', description, 'and link:', link);
-
-    if (title && description && link) {
-      addNewArticle(title, description, link);
-      addArticleForm.reset();
-      addArticleForm.style.display = "none";
-    } else {
-      alert("Please fill out all fields.");
-    }
-  });
+  fetch('http://localhost:3000/articles')
+    .then(response => response.json())
+    .then(articles => {
+      articles.forEach(article => {
+        addNewArticle(article.title, article.description, article.link, false);
+      });
+    })
+    .catch((error) => {
+      console.error('Error loading articles:', error);
+    });
 }
 
 // Using and modifying mouse and keyboard events
@@ -161,15 +206,14 @@ document.querySelector(".back-to-main").addEventListener("mouseout", () => {
   document.querySelector(".back-to-main").style.color = "";
 });
 
-//  setTimeout or setInterval 
+// setTimeout or setInterval 
 setInterval(() => {
   console.log("Interval running every 2 seconds");
 }, 2000);
 
-//  localStorage 
+// localStorage 
 const articles = [
-  { title: "Article 1", description: "Description 1" },
-  { title: "Article 2", description: "Description 2" },
+  { title: "Article 1", description: "salut sunt un articol din local storage :) ", link: "" },
 ];
 localStorage.setItem("articles", JSON.stringify(articles));
 
@@ -199,7 +243,7 @@ document.querySelector(".nav-link").addEventListener("click", (event) => {
   console.log("Nav link font size:", style.fontSize);
 });
 
-//Validating form data using regular expressions
+// Validating form data using regular expressions
 const form = document.createElement("form");
 const emailInput = document.createElement("input");
 emailInput.type = "email";

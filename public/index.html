@@ -3,26 +3,69 @@
 <head>
     <title>GPU News</title>
     <meta charset="UTF-8">
-    <meta name="description" content="Welcome to GPU News">
-    <meta name="keywords" content="GPU, news">
+    <meta name="description" content="GPU News is a website that provides the latest news about GPUs.">
+    <meta name="keywords" content="GPU, news, latest news, GPUs">
     <meta name="author" content="Pascaru Dan-Alexandru">
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
+    <script>
+        
+        if (!localStorage.getItem('loggedIn')) {
+            window.location.href = 'login.html';
+        }
+    </script>
     <header>
         <h1>GPU News</h1>
-        <a href="articles.html" class="nav-link">Articles</a>
+        <div class="header-right">
+            <nav class="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">Menu</a>
+                        <div class="dropdown-menu">
+                            <a href="articles.html">Articles</a>
+                            <a href="https://www.techspot.com/trending/">What's new?</a>
+                            <a href="https://www.pcgamer.com/best-graphics-card-deals-today/">Deals!</a>
+                            <a href="https://www.techspot.com/reviews/graphics-cards/">Reviews</a>
+                            <a href="https://gpu.userbenchmark.com">Comparisons</a>
+                            <a href="https://techovedas.com/10-largest-gpu-companies-in-the-world/">Vendors</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <button id="logout-button" style="display: inline-block;">Logout</button>
+        </div>
     </header>
 
-    <section>
-        <h2>Login</h2>
-        <form id="login-form">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <button id="logout-button" style="display: none;">Logout</button>
+    <div class="first_part">
+        <h2>The GODS of our obsession</h2>
+        <div class="gpu-brands">
+            <div class="gpu-brand-item" id="Nvidia"><a href="https://www.nvidia.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/NVIDIA_logo.svg/2560px-NVIDIA_logo.svg.png" alt="Nvidia"></a></div>
+            <div class="gpu-brand-item" id="AMD"><a href="https://www.amd.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/AMD_Logo.svg/1200px-AMD_Logo.svg.png" alt="AMD"></a></div>
+            <div class="gpu-brand-item" id="Intel"><a href="https://www.intel.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/2560px-Intel_logo_2023.svg.png" alt="Intel"></a></div>
+        </div>
+    </div>
+
+    <section id="latest-news" class="latest-news-section">
+        <h2>Latest News</h2>
+        <article class="news-item">
+            <h3 class="news-title"><a href="https://www.tomshardware.com/pc-components/gpus/acers-overclocked-rx-7800-xt-drops-in-china-following-ces-tease">Acer's overclocked RX 7800 XT cards arrive</a></h3>
+            <p class="news-content">The 2.5-slot GPU design that should fit in most cases.</p>
+        </article>
+        <article class="news-item">
+            <h3 class="news-title"><a href="https://www.tomshardware.com/pc-components/gpus/msi-rolls-out-a-new-high-end-nvidia-gaming-gpu-in-china">MSI rolls out a new high-end Nvidia gaming GPU in China</a></h3>
+            <p class="news-content">MSI has launched the GeForce RTX 4090D 24G Ventus 3X for the Chinese market.</p>
+        </article>
+        <article class="news-item">
+            <h3 class="news-title"><a href="https://www.tomshardware.com/pc-components/gpus/amd-announces-open-sourcing-of-its-gpu-software-stack-and-documentation-including-mes">AMD announces open-sourcing of its GPU software stack and documentation, including MES</a></h3>
+            <p class="news-content">This move comes after Tiny Corp insisted that at least MES software needed open sourcing for their AI server work</p>
+        </article>
+        <article class="news-item">
+            <h3 class="news-title"><a href="https://www.tomshardware.com/pc-components/gpus/amd-rdna-4-based-navi-48-gpu-added-to-rocm-platform-lays-the-groundwork-though-specifications-are-unknown">AMD RDNA 4-based Navi 48 GPU added to ROCm platform — lays the groundwork, though specifications are unknown</a></h3>
+            <p class="news-content">AMD's first RDNA 4-powered graphics processor support added to ROCm platform</p>
+        </article>
     </section>
+    <div class="moving-image"></div>
 
     <script src="script.js"></script>
 </body>

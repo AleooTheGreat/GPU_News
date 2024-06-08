@@ -9,39 +9,46 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
+    <script>
+        if (!sessionStorage.getItem('loggedIn')) {
+            window.location.href = 'login.html';
+        }
+    </script>
     <header>
         <h1>GPU News</h1>
-        <nav class="navbar">
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle">Menu</a>
-                    <div class="dropdown-menu">
-                        <a href="articles.html">Articles</a>
-                        <a href="https://www.techspot.com/trending/">What's new?</a>
-                        <a href="https://www.pcgamer.com/best-graphics-card-deals-today/">Deals!</a>
-                        <a href="https://www.techspot.com/reviews/graphics-cards/">Reviews</a>
-                        <a href="https://gpu.userbenchmark.com">Comparisons</a>
-                        <a href="https://techovedas.com/10-largest-gpu-companies-in-the-world/">Vendors</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <button id="logout-button" style="display: inline-block;">Logout</button>
+        <div class="header-right">
+            <nav class="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">Menu</a>
+                        <div class="dropdown-menu">
+                            <a href="articles.html">Articles</a>
+                            <a href="https://www.techspot.com/trending/">What's new?</a>
+                            <a href="https://www.pcgamer.com/best-graphics-card-deals-today/">Deals!</a>
+                            <a href="https://www.techspot.com/reviews/graphics-cards/">Reviews</a>
+                            <a href="https://gpu.userbenchmark.com">Comparisons</a>
+                            <a href="https://techovedas.com/10-largest-gpu-companies-in-the-world/">Vendors</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <button id="logout-button" style="display: inline-block;">Logout</button>
+        </div>
     </header>
 
     <div class="first_part">
         <h2>The GODS of our obsession</h2>
         <div class="gpu-brands">
-            <div class="gpu-brand-item" id="Nvidia"><a href="https://www.nvidia.com">Nvidia</a></div>
-            <div class="gpu-brand-item" id="AMD"><a href="https://www.amd.com">AMD</a></div>
-            <div class="gpu-brand-item" id="Intel"><a href="https://www.intel.com">Intel</a></div>
+            <div class="gpu-brand-item" id="Nvidia"><a href="https://www.nvidia.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/NVIDIA_logo.svg/2560px-NVIDIA_logo.svg.png" alt="Nvidia"></a></div>
+            <div class="gpu-brand-item" id="AMD"><a href="https://www.amd.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/AMD_Logo.svg/1200px-AMD_Logo.svg.png" alt="AMD"></a></div>
+            <div class="gpu-brand-item" id="Intel"><a href="https://www.intel.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/2560px-Intel_logo_2023.svg.png" alt="Intel"></a></div>
         </div>
     </div>
 
     <section id="latest-news" class="latest-news-section">
         <h2>Latest News</h2>
         <article class="news-item">
-            <h3 class="news-title"><a href="https://www.tomshardware.com/pc-components/gpus/acers-overclocked-rx-7800-xt-drops-in-china-following-ces-tease">Acer's overclocked RX 7800 XT cards arrive 1</a></h3>
+            <h3 class="news-title"><a href="https://www.tomshardware.com/pc-components/gpus/acers-overclocked-rx-7800-xt-drops-in-china-following-ces-tease">Acer's overclocked RX 7800 XT cards arrive</a></h3>
             <p class="news-content">The 2.5-slot GPU design that should fit in most cases.</p>
         </article>
         <article class="news-item">

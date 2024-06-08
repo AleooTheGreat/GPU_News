@@ -18,6 +18,15 @@ header {
     align-items: center;
     color: white;
     padding: 1rem 2%;
+    background-color: #000;
+    border: 2px solid #ff0000; /* Red border to match the vibe */
+    box-shadow: 0 0 10px 5px #ff6347; /* Glowing shadow effect */
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
 }
 
 .navbar {
@@ -71,52 +80,58 @@ header {
     font-size: smaller;
 }
 
-.news-title a{
-    color: black;
-    text-decoration: none;
+#logout-button {
+    margin-left: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 3px;
 }
 
-.first_part {
+#logout-button:hover {
+    background-color: #0056b3;
+}
+
+.first_part, .latest-news-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    background-color: #ddff00;
-    padding: 1rem 0;
+    width: calc(100% - 2rem); /* Adjust width to fit within margins */
+    margin: 1rem auto; /* Center the sections */
+    padding: 1rem;
+    border: 2px solid #ff0000; /* Red border to match the vibe */
+    box-shadow: 0 0 10px 5px #ff6347; /* Glowing shadow effect */
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.first_part h2 {
+.first_part:hover, .latest-news-section:hover {
+    transform: scale(1.02); /* Subtle enlarge on hover */
+    box-shadow: 0 0 20px 10px #ff6347; /* Increase shadow effect on hover */
+}
+
+.first_part h2, .latest-news-section h2 {
     color: white;
     font-size: 2.5rem;
     text-align: center;
     margin: 1rem 0;
-    animation: complexAnimation 30s infinite;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #0000ff, 0 0 30px #ff0000; /* Flashy title */
+    animation: colorFlash 5s infinite;
 }
 
-@keyframes complexAnimation {
-    0%, 100% {
-        color: white;
-        transform: scale(1);
-        text-shadow: none;
-    }
-    25% {
-        color: yellow;
-    }
-    50% {
-        transform: scale(1.1);
-        text-shadow: 0 0 5px yellow;
-    }
-    75% {
-        color: white;
-        text-shadow: 0 0 15px yellow, 0 0 25px orange, 0 0 35px red;
-    }
+@keyframes colorFlash {
+    0% { color: #00ff00; } /* Green */
+    33% { color: #ff0000; } /* Red */
+    66% { color: #0000ff; } /* Blue */
+    100% { color: #00ff00; } /* Green */
 }
 
 .gpu-brands {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 1rem;
     padding: 1rem;
     width: 100%;
@@ -126,67 +141,96 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #333;
-    color: white;
-    font-size: 20px;
-    flex-grow: 1;
+    flex: 1;
     height: 40vh;
     margin: 0 10px;
     position: relative;
+    background-size: cover; /* Ensure the background covers the entire div */
+    background-position: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add some hover effects */
+}
+
+.gpu-brand-item img {
+    max-width: 150px; /* Scale logos to fit within their containers */
+    max-height: 150px;
+
+    object-fit: contain;
+}
+
+#Nvidia {
+    background-image: url('https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ada/rtx-4080/geforce-rtx-super-architecture-bm-xl770-d.jpg');
+}
+
+#AMD {
+    background-image: url('https://www.amd.com/content/dam/amd/en/images/backgrounds/abstract/2613900-amd-computex-2024-gc.jpg'); 
+}
+
+#Intel {
+    background-image: url('https://www.intel.com/content/dam/www/central-libraries/us/en/images/2023-08/adobestock-556454258.jpeg.rendition.intel.web.480.270.jpg'); 
 }
 
 .gpu-brand-item a {
     z-index: 10;
-    color: white;
     text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-.gpu-brand-item::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 2s;
-}
-
-#Nvidia::before {
-    background-image: url("Images/Nvidia.jpg");
-}
-
-#AMD::before {
-    background-image: url("Images/AMD.jpg");
-}
-
-#Intel::before {
-    background-image: url("Images/Intel.png");
-}
-
-.gpu-brand-item:hover::before {
-    opacity: 1;
+.gpu-brand-item:hover {
+    transform: scale(1.02); /* Subtle enlarge on hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .latest-news-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
-    padding: 1rem;
-    background-color: #f8f8f8;
-    margin-top: 2rem;
+    padding: 2rem;
+    background-color: #ff4500; /* Flaming red background */
+    color: white;
+    border: 2px solid #ff0000; /* Red border to enhance the flaming effect */
+    box-shadow: 0 0 10px 5px #ff6347; /* Add a glowing shadow effect */
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s; /* Add transition effects */
+}
+
+.latest-news-section:hover {
+    transform: scale(1.02); /* Subtle enlarge on hover */
+    box-shadow: 0 0 20px 10px #ff6347; /* Increase shadow effect on hover */
+}
+
+.latest-news-section h2 {
+    color: yellow;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px #ff4500, 0 0 20px #ff6347, 0 0 30px #ff0000;
 }
 
 .news-item {
-    background-color: white;
+    background-color: transparent;
     padding: 1rem;
+    border: 1px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.news-item a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.news-item a:hover {
+    color: yellow;
+    text-shadow: 0 0 10px #ff4500, 0 0 20px #ff6347, 0 0 30px #ff0000;
 }
 
 .news-item:nth-of-type(odd) {
-    background-color: #e9e9e9;
+    background-color: rgba(255, 69, 0, 0.1); /* Light flaming red for odd items */
 }
 
 @media (max-width: 768px) {
@@ -195,7 +239,7 @@ header {
         align-items: center;
     }
 
-    .first_part h2 {
+    .first_part h2, .latest-news-section h2 {
         font-size: 1.5rem;
     }
 
@@ -251,4 +295,43 @@ header {
         left: 0; 
         filter: hue-rotate(270deg);
     }
+}
+
+/* Animation background code */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('Images/GPU1.webp');
+    background-size: cover;
+    animation: shiftBackground 5s infinite;
+    z-index: -1; /* Ensures the background is behind all content */
+}
+
+@keyframes shiftBackground {
+    0% {
+        background-image: url('Images/GPU1.webp');
+    }
+    25% {
+        background-image: url('Images/GPU2.webp');
+    }
+    50% {
+        background-image: url('Images/GPU3.webp');
+    }
+    75% {
+        background-image: url('Images/GPU2.webp');
+    }
+    100% {
+        background-image: url('Images/GPU1.webp');
+    }
+}
+
+header, .first_part, .latest-news-section {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for readability */
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 1rem;
 }
